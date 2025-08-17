@@ -1,12 +1,13 @@
 import axios from "axios"
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export async function SignIn(password){
     try{
         const response = await axios.post("http://192.168.0.66:8000/api/login",{
             password: password,
+        },{
+            withCredentials:true
         });
-        const token = response.data.token;
     }catch(error){
         console.log(error)
     }

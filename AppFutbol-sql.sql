@@ -1,12 +1,46 @@
-Create Database CLASE1_2025_1C
-Go
-Use Clase1_2025_1C
-Go
-Create Table Areas(
-    IDArea tinyint not null primary key,
-    Nombre varchar(50) not null,
-    Presupuesto money not null check (Presupuesto > 0),
-    Mail varchar(200) null
-)
+CREATE DATABASE IF NOT EXISTS AppFutbol;
+USE AppFutbol;
 
-select * from Areas a 
+-- Tabla de usuarios
+CREATE TABLE IF NOT EXISTS custom_users (
+	IdUser INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email varchar(200) not null,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT null,
+ 	created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla de grupos
+CREATE TABLE IF NOT EXISTS groups (
+	idGroup INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	groupName VARCHAR(50) NOT null,
+	created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+-- Tabla intermedia groupxuser (relación muchos a muchos)
+CREATE TABLE IF NOT EXISTS groupxuser (
+	idGroup INT NOT NULL,
+	idUser INT NOT NULL,
+	PRIMARY KEY(idUser, idGroup),
+	CONSTRAINT fk_groupxuser_user FOREIGN KEY (idUser) REFERENCES custom_users(idUser) ON DELETE CASCADE,
+	CONSTRAINT fk_groupxuser_group FOREIGN KEY (idGroup) REFERENCES groups(idGroup) ON DELETE cascade,
+	created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP	
+);
+
+-- Tabla de promedios
+CREATE TABLE IF NOT EXISTS promedio (
+	idPromedio INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	idGroup INT NOT NULL,
+	idUser INT NOT NULL,
+	promedio DECIMAL NOT NULL,
+	UNIQUE(idUser, idGroup), -- para evitar duplicados
+	CONSTRAINT fk_promedio_user FOREIGN KEY (idUser) REFERENCES custom_users(idUser) ON DELETE CASCADE,
+	CONSTRAINT fk_promedio_group FOREIGN KEY (idGroup) REFERENCES groups(idGroup) ON DELETE cascade,
+	created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
