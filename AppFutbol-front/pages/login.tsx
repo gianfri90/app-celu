@@ -12,11 +12,13 @@ export default function Foo() {
 
     return (
         <>
-            {state === false ? (
+            {state === true ? (
                 <LoginForm
+                    email={email}
                     password={password}
                     setPassword={setPassword}
                     setState={setState}
+                    setEmail={setEmail}
                     state={state}
                 />
             ) : (

@@ -1,18 +1,54 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import { SignIn } from "./SignUp";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type props = {
     password: string;
+    email: string;
     state: boolean;
+    setEmail: (text: string) => void;
     setPassword: (text: string) => void;
     setState: (value: boolean) => void;
 };
 
-function LoginForm({ password, setPassword, setState,state}: props) {
+export type RootStackParamList = {
+    Login: undefined;
+    Home: undefined;
+};
+
+
+type RegisterScreenNavigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    "Login"
+>;
+
+function LoginForm({ password, email, setPassword, setEmail, setState, state }: props) {
+
+    const navigation = useNavigation<RegisterScreenNavigationProp>();
+
+    async function handleSubmit() {
+        const response = await SignIn(email,password);
+
+        if (response && response.token) {
+            await AsyncStorage.setItem("authToken", response.token);
+            navigation.replace("Home");
+        } else {
+            Alert.alert("Error", "No se pudo registrar el usuario");
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.login}>
                 <Text style={styles.heading}>Futbol App</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="ejemplo@gmail.com"
+                    value={email}
+                    onChangeText={setEmail}
+                />
                 <TextInput
                     style={styles.input}
                     placeholder="*********"
@@ -23,7 +59,7 @@ function LoginForm({ password, setPassword, setState,state}: props) {
                 <TouchableOpacity>
                     <Text style={styles.forgotText}>Forgot Password?</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => {SignIn(password)}}><Text style={styles.buttonText}>Log In</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => { handleSubmit() }}><Text style={styles.buttonText}>Log In</Text></TouchableOpacity>
                 <Text style={styles.forgotText} onPress={() => setState(!state)}>Regiistrarse</Text>
             </View>
         </View>
@@ -51,9 +87,9 @@ const styles = StyleSheet.create({
         width: 290,
         height: 30,
         borderRadius: 5,
-        backgroundColor: '#3498db', // vacío daba error
-        justifyContent: "center", // importante para centrar verticalmente
-        alignItems: "center"       // importante para centrar horizontalmente
+        backgroundColor: '#3498db',
+        justifyContent: "center",
+        alignItems: "center"
     },
     buttonText: {
         color: "white",

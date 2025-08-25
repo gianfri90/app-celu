@@ -8,8 +8,4 @@ export class UserController {
 
     constructor(private userService:UserService){}
 
-    @Post('create')
-    createUser(@Body() userData: UserCreateDTO) {
-        this.userService.register(userData);
-    }
 }

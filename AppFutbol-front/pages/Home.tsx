@@ -1,9 +1,58 @@
-import { Text } from "react-native-gesture-handler"
+import React, { useState, useEffect } from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    Text
+} from "react-native";
 
-function Home(){
-    <>
-        <Text>ffff</Text>
-    </>
+export default function Home() {
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        const loadToken = async () => {
+            try {
+                const value = await AsyncStorage.getItem("authToken");
+                if (value !== null) {
+                    setToken(value);
+                }
+            } catch (e) {
+                console.log("Error leyendo token:", e);
+            }
+        };
+
+        loadToken();
+    }, []);
+
+    return (
+        <>
+            <View style={styles.bar}>
+                <TouchableOpacity>
+                    <Icon name="home" size={30} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Icon name="account-group" size={30} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Icon name="account" size={30} color="white" />
+                </TouchableOpacity>
+            </View>
+        </>
+    );
 }
 
- export default Home 
+const styles = StyleSheet.create({
+    bar: {
+        position: "absolute",
+        bottom:0,
+        left: 0,
+        right: 0,
+        height: 80,
+        backgroundColor: "grey",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+    },
+});

@@ -1,20 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { RegisterDto } from 'src/dtos/register.dto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserService {
     constructor(private prisma:PrismaService){}
 
-    register(){
-        return this.prisma.user.create({
-            data:{
-                
-            }
-        })
+    async findOneByEmail(email: string){
+        return this.prisma.user.findUnique({
+            where:{email},
+        });
     }
 
-    login(){
-
+    create(createUserDto:RegisterDto){
+        return this.prisma.user.create({
+            data:{
+                email:createUserDto.email,
+                name:createUserDto.name,
+                password:createUserDto.password,
+            }
+        })
     }
 
 }
