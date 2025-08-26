@@ -5,18 +5,21 @@ import {
     Text
 } from "react-native";
 
-function Groups(){
+function CreateGroups(){
     return(
         <>
-            <View>
+            <View style={styles.container}>
                 
             </View>
         </>
     )
 }
 
-export default Groups
+export default CreateGroups
 
 const styles = StyleSheet.create({
-
+    container:{
+        flex:1,
+        backgroundColor:"red"
+    }
 })

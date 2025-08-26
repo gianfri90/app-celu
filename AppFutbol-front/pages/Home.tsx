@@ -7,10 +7,13 @@ import {
     TouchableOpacity,
     Text
 } from "react-native";
+import Profile from "./Profile";
+import Groups from "./Groups";
+import CreateGroups from "./CreateGroups";
 
 export default function Home() {
     const [token, setToken] = useState(null);
-    const [state,setState] = useState(0);
+    const [state,setState] = useState(2);
 
     useEffect(() => {
         const loadToken = async () => {
@@ -30,7 +33,16 @@ export default function Home() {
     return (
         <>
             {state === 1 && (
-                <Text>ggg</Text>
+                <Profile></Profile>
+            )}
+            {state === 2 && (
+                <Groups></Groups>
+            )}
+            {state === 3 && (
+                <>
+                    <Text>dd</Text>
+                    <CreateGroups></CreateGroups>
+                </>
             )}
             <View style={styles.bar}>
                 <TouchableOpacity onPress={() => setState(1)}>

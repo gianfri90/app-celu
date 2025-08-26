@@ -5,7 +5,7 @@ import {
     Text
 } from "react-native";
 
-function Groups(){
+function Profile(){
     return(
         <>
             <View>
@@ -15,7 +15,7 @@ function Groups(){
     )
 }
 
-export default Groups
+export default Profile
 
 const styles = StyleSheet.create({
 
