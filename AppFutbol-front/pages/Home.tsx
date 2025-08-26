@@ -10,6 +10,7 @@ import {
 
 export default function Home() {
     const [token, setToken] = useState(null);
+    const [state,setState] = useState(0);
 
     useEffect(() => {
         const loadToken = async () => {
@@ -28,14 +29,17 @@ export default function Home() {
 
     return (
         <>
+            {state === 1 && (
+                <Text>ggg</Text>
+            )}
             <View style={styles.bar}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setState(1)}>
                     <Icon name="home" size={30} color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setState(2)}>
                     <Icon name="account-group" size={30} color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setState(3)}>
                     <Icon name="account" size={30} color="white" />
                 </TouchableOpacity>
             </View>
