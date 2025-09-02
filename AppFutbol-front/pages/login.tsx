@@ -3,7 +3,7 @@ import LoginForm from "../components/LoginForm"
 import RegisterForm from "../components/RegisterForm"
 
 
-export default function Foo() {
+export default function Foo({setIsAuthenticated }: {setIsAuthenticated: (value: boolean) => void}) {
     const [state, setState] = useState(true)
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
@@ -14,6 +14,7 @@ export default function Foo() {
         <>
             {state === true ? (
                 <LoginForm
+                    setIsAuthenticated={setIsAuthenticated}
                     email={email}
                     password={password}
                     setPassword={setPassword}

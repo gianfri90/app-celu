@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "jsx": "react-native",
-    "types": ["nativewind/types"]
   },
   "extends": "expo/tsconfig.base"
 }

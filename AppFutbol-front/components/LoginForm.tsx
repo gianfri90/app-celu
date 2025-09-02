@@ -11,6 +11,7 @@ type props = {
     setEmail: (text: string) => void;
     setPassword: (text: string) => void;
     setState: (value: boolean) => void;
+    setIsAuthenticated: (value: boolean) => void;
 };
 
 export type RootStackParamList = {
@@ -24,15 +25,17 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
     "Login"
 >;
 
-function LoginForm({ password, email, setPassword, setEmail, setState, state }: props) {
+function LoginForm({ password, email, setPassword, setEmail, setState, state,setIsAuthenticated  }: props) {
 
     const navigation = useNavigation<RegisterScreenNavigationProp>();
 
     async function handleSubmit() {
         const response = await SignIn(email,password);
-
+        
         if (response && response.token) {
             await AsyncStorage.setItem("authToken", response.token);
+            console.log("xxx")
+            setIsAuthenticated(true);
             navigation.replace("Home");
         } else {
             Alert.alert("Error", "No se pudo registrar el usuario");

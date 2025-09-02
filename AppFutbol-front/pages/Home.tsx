@@ -7,11 +7,11 @@ import {
     TouchableOpacity,
     Text
 } from "react-native";
-import Profile from "./Profile";
+import Profile from "./CreateGroups";
 import Groups from "./Groups";
-import CreateGroups from "./CreateGroups";
+import CreateGroups from "./Profile";
 
-export default function Home() {
+export default function Home({setIsAuthenticated}) {
     const [token, setToken] = useState(null);
     const [state,setState] = useState(2);
 
@@ -40,8 +40,7 @@ export default function Home() {
             )}
             {state === 3 && (
                 <>
-                    <Text>dd</Text>
-                    <CreateGroups></CreateGroups>
+                    <CreateGroups setIsAuthenticated={setIsAuthenticated}></CreateGroups>
                 </>
             )}
             <View style={styles.bar}>
