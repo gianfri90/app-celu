@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { group } from 'console';
 import { createGroupsDto } from 'src/dtos/createGroups.dto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class GroupsService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) { }
 
     private readonly characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -34,12 +35,16 @@ export class GroupsService {
 
         const newCode = code;
 
-        return this.prisma.grupo.create({
+        // 👈 devolvemos directamente el grupo creado
+        const group = await this.prisma.grupo.create({
             data: {
                 name: data.name,
                 code: newCode,
                 maxIntegrantes: data.maxIntegrantes,
-            }
+            },
         });
+
+        return group; // devuelve el objeto con el id
     }
+
 }
