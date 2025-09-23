@@ -1,43 +1,25 @@
-import axios from "axios";
-import {
-    View,
-    StyleSheet,
-    Text
-} from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import MyGroups from "../components/MyGroups";
+import InfoGroup from "../components/InfroGroup";
 
-type gruoup {
-    
+function Groups() {
+  const [state, setState] = useState(0);
+
+  const handleGroupPress = (grupoId: number) => {
+    console.log("Grupo seleccionado:", grupoId);
+    setState(1);
+  };
+
+  return (
+    <>
+      {state === 0 && (
+        <MyGroups handleGroupPress={handleGroupPress} />
+      )}
+      {state === 1 && (
+        <InfoGroup IdGroup={1}/>
+      )}
+    </>
+  );
 }
 
-function Groups(){
-
-    const [grupos,setGrupos] = useState<>()
-
-    useEffect(() => {
-        const token = AsyncStorage.getItem("authToken");
-    
-         groups = axios.get('http://10.0.2.2:3000/groups',{
-            headers: { Authorization: `Bearer ${token}` },
-        })
-
-    },[])
-
-
-    return(
-        <>
-            <View style={{marginTop:30}}>
-                <View style={{}}>
-                    <Text>ss</Text>
-                </View>
-            </View>
-        </>
-    )
-}
-
-export default Groups
-
-const styles = StyleSheet.create({
-
-})
+export default Groups;
