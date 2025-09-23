@@ -32,6 +32,12 @@ export class GroupMembersService {
     });
   }
 
+  getPersonGroups(id:number){
+    return this.prisma.grupoPorPersona.findMany({
+      where:{id:id},
+    })
+  }
+
   async getGroups(request: Request){
     const authHeader = request.headers['authorization'];
     if (!authHeader) {
@@ -46,7 +52,15 @@ export class GroupMembersService {
     user = this.jwtService.decode(token)
     const userId = user.id; 
     return this.prisma.grupoPorPersona.findMany({
-        where:{userId}
+        where:{userId},
+        select:{
+          grupoId:true,
+          grupo:{
+            select:{
+              name:true
+            }
+          } 
+        }
     })
   }
 
