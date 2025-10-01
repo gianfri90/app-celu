@@ -5,9 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 async function handleSubmit(name: string, maxIntegrantes: number) {
     try {
-        console.log("submit");
-
-        // recuperás el JWT del almacenamiento
         const token = await AsyncStorage.getItem("authToken");
 
         const response = await axios.post(

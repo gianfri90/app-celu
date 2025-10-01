@@ -15,8 +15,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 type Group = {
     grupoId: number;
     grupo: {
-        nombre: string;
-        descripcion: string;
+        name: string;
     };
 };
 
@@ -45,28 +44,22 @@ function MyGroups({ handleGroupPress }: Props) {
             }
         };
         fetchGroups();
-        console.log("hola")
     }, []);
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Tus Grupos</Text>
-            <FlatList
-                data={grupos}
-                keyExtractor={(item) => item.grupoId.toString()}
-                numColumns={2}
-                renderItem={({ item }) => (
+            {grupos.map((item) => (
+                <View key={item.grupoId}>
                     <Pressable
                         onPress={() => handleGroupPress(item.grupoId)}
                         style={styles.groupItem}
                     >
-                        <Text style={styles.groupText}>
-                            {item.grupo?.nombre || `Grupo ${item.grupoId}`}
-                        </Text>
-                        <Text style={styles.groupSubText}>{item.grupo?.descripcion}</Text>
+                        <Text style={styles.groupText}>{item.grupo.name}</Text>
+
                     </Pressable>
-                )}
-            />
+                </View>
+            ))}
         </View>
     );
 }

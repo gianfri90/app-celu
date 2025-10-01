@@ -32,11 +32,16 @@ export class GroupMembersService {
     });
   }
 
-  getPersonGroups(id:number){
-    return this.prisma.grupoPorPersona.findMany({
-      where:{id:id},
-    })
-  }
+  getPersonGroups(id: number) {
+  return this.prisma.grupoPorPersona.findMany({
+    where: { grupoId:id },
+    select: {
+      user: {
+        select: { name: true }
+      }
+    }
+  });
+}
 
   async getGroups(request: Request){
     const authHeader = request.headers['authorization'];
